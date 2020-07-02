@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2019",
+    "module": "commonjs",
+
+    "sourceMap": true,
+
+    "outDir": "./assets/js/build",
+    "rootDir": "./assets/js",
+
+    "tsBuildInfoFile": "./assets/js/build/.tsbuildinfo",
+
+    "strict": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
