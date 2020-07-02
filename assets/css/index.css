@@ -36,6 +36,8 @@ section#img-container {
 section#img-container div.image {
   border-radius: 1em;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
 }
 section#img-container div.image:nth-of-type(even) {
   grid-row: span 2;

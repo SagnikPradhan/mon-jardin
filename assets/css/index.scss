@@ -40,6 +40,8 @@ section#img-container {
   div.image {
     border-radius: 1em;
     box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    background-position: center;
   }
 
   div.image:nth-of-type(even) {

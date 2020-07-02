@@ -1,35 +1,60 @@
-const imageElems = [];
+const graphQLToken = "afa6d76dc0e5155f2aca8d637023951ffda26000";
 
 const container = document.getElementById("img-container");
 if (!container) throw new Error("No image container found");
 
 const init = async (): Promise<void> => {
-  for (let idx = 0; idx < 25; idx++) {
+  const imageMeta = await getImageMeta()
+
+  const lazyImageObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.target instanceof HTMLDivElement) {
+        let lazyImage = entry.target;
+        lazyImage.style.backgroundImage = `url(${lazyImage.dataset.src || ""})`;
+        lazyImage.classList.remove("lazy");
+        lazyImageObserver.unobserve(lazyImage);
+      }
+    });
+  });
+
+  for (let idx = 0; idx < imageMeta.length; idx++) {
     const element = defaultElem();
+    element.dataset.src = `https://github.com/SagnikPradhan/garden-photos/raw/web/photos/${imageMeta[idx].name}`
     container.append(element);
-    imageElems.push(element);
+    lazyImageObserver.observe(element)
   }
 };
 
 function defaultElem(): HTMLDivElement {
   const element = document.createElement("div");
-  element.classList.add("image", "loading", "lax");
+  element.classList.add("image", "lazy", "lax");
   element.setAttribute("data-lax-preset", "fadeIn");
   return element;
 }
 
-async function loadImages() {
-  const res = await fetch(
-    "https://api.github.com/repos/SagnikPradhan/garden-photos/contents/photos"
-  );
-  const images: any[] = await res.json();
+async function getImageMeta() {
+  const query = `query { 
+    repository(name: "garden-photos", owner: "SagnikPradhan") {
+      object(expression: "web:photos") {
+        ... on Tree { entries { name } }
+      }
+    }
+  }`;
 
-  for (const image of images.slice(1, 20)) {
-    const imageElem = document.createElement("img");
-    imageElem.setAttribute("loading", "lazy");
-    imageElem.setAttribute("src", image.download_url);
-    container?.appendChild(imageElem);
-  }
+  const imagesMetaReq = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${graphQLToken}`,
+    },
+    body: JSON.stringify({ query }),
+  });
+
+  const imagesMeta: { name: string }[] = (await imagesMetaReq.json()).data
+    .repository.object.entries;
+  
+  return imagesMeta;
 }
 
 // Laxxx
