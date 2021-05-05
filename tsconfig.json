@@ -1,15 +1,9 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "target": "es2019",
-    "module": "commonjs",
-
-    "sourceMap": true,
-
-    "outDir": "./assets/js/build",
-    "rootDir": "./assets/js",
-
-    "tsBuildInfoFile": "./assets/js/build/.tsbuildinfo",
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "module": "esnext",
+    "jsx": "preserve",
 
     "strict": true,
 
@@ -17,11 +11,22 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
 
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+
+    "forceConsistentCasingInFileNames": true,
+
+    "allowJs": true,
+    "noEmit": true,
+
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
+  "exclude": ["node_modules"]
 }
