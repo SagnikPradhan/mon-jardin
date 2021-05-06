@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Form, File } from "multiparty";
 
 import sharp from "sharp";
+import AWS from "aws-sdk";
 import S3 from "aws-sdk/clients/s3";
 import Faunadb from "faunadb";
 
@@ -61,10 +62,25 @@ function hash(string: string) {
 
 /** Upload to S3 */
 async function uploadS3(name: string, file: NodeJS.ReadableStream) {
+  const accessKeyId = process.env["AWS_ACCESS_KEY_ID_APP"];
+  if (!accessKeyId) throw new Error("No AWS_ACCESS_KEY_ID_APP env set");
+
+  const secretAccessKey = process.env["AWS_SECRET_ACCESS_KEY_APP"];
+  if (!secretAccessKey) throw new Error("No AWS_SECRET_ACCESS_KEY_APP env set");
+
+  const region = process.env["AWS_REGION_APP"];
+  if (!region) throw new Error("No AWS_REGION_APP env set");
+
+  AWS.config.update({
+    accessKeyId,
+    secretAccessKey,
+    region,
+  });
+
   const s3 = new S3();
 
-  const bucket = process.env["BUCKET"];
-  if (!bucket) throw new Error("No BUCKET env set");
+  const bucket = process.env["AWS_BUCKET_APP"];
+  if (!bucket) throw new Error("No AWS_BUCKET_APP env set");
 
   const { Location } = await s3
     .upload({
