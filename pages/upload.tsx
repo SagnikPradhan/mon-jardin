@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import { useSession, signIn, signOut } from "next-auth/client";
 
@@ -11,55 +11,108 @@ export default function Home() {
     console.log(event);
   };
 
-  if (!session)
-    return (
-      <Layout>
-        <h1 className="">You are not signed in</h1>
-        <button onClick={() => signIn()}>Sign In</button>
-      </Layout>
-    );
-  else
-    return (
-      <>
-        <Head>
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Nunito&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
+  return (
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Nunito&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
 
-        <Layout>
-          <div className="bg-white flex flex-col items-center justify-center rounded-2xl shadow-lg px-6">
-            <h1 className="font-bold text-3xl font-montserrat my-20 mx-12">
+      <Layout>
+        {session ? (
+          <Card>
+            <h1 className="font-bold text-3xl font-montserrat my-14">
               Upload your Images
             </h1>
 
             <div
               onDrop={onDrop}
-              className="min-w-full h-52 rounded-xl bg-gray-50 flex flex-col items-center justify-center border-solid border-gray-200 border-2 m-4 mt-0"
+              className="
+                bg-snow bg-opacity-60
+                  min-w-full h-52 mb-8
+                  flex flex-col items-center justify-center gap-2
+                "
             >
-              Drag and Drop Items here
+              <span className="font-semibold">Drop images here</span>
+
+              <span>OR</span>
+
+              <label
+                htmlFor="file-input"
+                className="
+                    px-12 py-4
+                    bg-black bg-opacity-10
+                    font-semibold
+                  "
+              >
+                <input type="file" id="file-input" className="hidden" />
+                Browse files
+              </label>
             </div>
 
-            <button className="bg-blue-200 px-20 py-3 rounded-md text-black hover:bg-blue-500 hover:text-white hover:shadow my-4">
+            <button
+              className="
+                  bg-snow bg-opacity-40 hover:shadow
+                  font-semibold px-12 py-4 mt-4
+                "
+            >
               Upload
             </button>
 
             <button
-              className="bg-pink-200 px-20 py-3 rounded-md text-black hover:bg-red-500 hover:text-white hover:shadow mb-10"
+              className="
+                  bg-black text-snow hover:shadow
+                  font-semibold px-12 py-4 mt-4
+                "
               onClick={() => signOut()}
             >
               Sign Out
             </button>
-          </div>
-        </Layout>
-      </>
-    );
+          </Card>
+        ) : (
+          <Card>
+            <h1 className="font-montserrat font-bold text-3xl my-10">
+              You are not signed in
+            </h1>
+
+            <button
+              onClick={() => signIn("discord")}
+              className="
+              px-12 py-4 bg-black text-snow mt-4 font-semibold
+            "
+            >
+              Sign In
+            </button>
+          </Card>
+        )}
+      </Layout>
+    </>
+  );
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => (
-  <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-50">
+  <div
+    className="
+      w-screen min-h-screen
+      flex flex-col items-center justify-center
+      bg-gray bg-purple-beauty bg-cover bg-no-repeat
+    "
+  >
+    {children}
+  </div>
+);
+
+export const Card = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="
+    flex flex-col items-center justify-center 
+    shadow-lg rounded-sm p-8 m-8 
+    backdrop-filter backdrop-blur bg-snow bg-opacity-60
+  "
+  >
     {children}
   </div>
 );
