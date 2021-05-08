@@ -246,15 +246,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/busboy@npm:^0":
-  version: 0.2.3
-  resolution: "@types/busboy@npm:0.2.3"
-  dependencies:
-    "@types/node": "*"
-  checksum: 2f66c23ac87196bac7545f3e1e64d39c5d8e7ca8ce613df7b39f5a0ef336719f862ee5e4ddc6836ee350213457c6b1b381c042af1832bd96725f2c4f02324086
-  languageName: node
-  linkType: hard
-
 "@types/multiparty@npm:^0.0.32":
   version: 0.0.32
   resolution: "@types/multiparty@npm:0.0.32"
@@ -4863,7 +4854,6 @@ typescript@^4.2.4:
   version: 0.0.0-use.local
   resolution: "with-tailwindcss@workspace:."
   dependencies:
-    "@types/busboy": ^0
     "@types/multiparty": ^0.0.32
     "@types/node": ^15.0.1
     "@types/react": ^17.0.4

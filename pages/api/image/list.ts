@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Faunadb from "faunadb";
+import { Item } from "./upload";
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method !== "GET") {
@@ -7,6 +8,10 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     return;
   }
 
+  response.json(await getList());
+};
+
+export const getList = async () => {
   const secret = process.env["FAUNADB_TOKEN"];
   if (!secret) throw new Error("No FAUNADB_TOKEN env set");
 
@@ -18,8 +23,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       q.Paginate(q.Documents(q.Collection("photos"))),
       q.Lambda((x) => q.Get(x))
     )
-  )) as { data: { data: { link: string } }[] };
+  )) as { data: Item[] };
 
-  const body = data.map(({ data }) => data.link);
-  response.json(body);
+  return data.map(({ data }) => ({ data }));
 };
