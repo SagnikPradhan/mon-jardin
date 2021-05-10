@@ -24,11 +24,7 @@
     "noEmit": true,
 
     "resolveJsonModule": true,
-    "isolatedModules": true,
-
-    "paths": {
-      "mon-jardin/*": ["./*"]
-    }
+    "isolatedModules": true
   },
 
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
