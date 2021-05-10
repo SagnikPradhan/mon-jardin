@@ -13,8 +13,8 @@ import {
   Merge,
 } from "faunadb";
 
-import config from "mon-jardin/utils/config";
-import { ImageSizes } from "mon-jardin/utils/image";
+import config from "utils/config";
+import { ImageSizes } from "utils/image";
 
 const collection = config.get("fauna.collection");
 

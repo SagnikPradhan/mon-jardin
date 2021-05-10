@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Form, File } from "multiparty";
 
-import { processImage } from "mon-jardin/utils/image";
-import { createImageMetadata, ImageMetadata } from "mon-jardin/utils/database";
-import { uploadFile } from "mon-jardin/utils/datastore";
+import { processImage } from "utils/image";
+import { createImageMetadata, ImageMetadata } from "utils/database";
+import { uploadFile } from "utils/datastore";
 
 /** Gets files as a promise */
 function getFiles(request: NextApiRequest) {

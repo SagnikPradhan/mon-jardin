@@ -1,10 +1,7 @@
 import React from "react";
 import { GetStaticProps } from "next";
 
-import {
-  getAllImagesMetadata,
-  ImageMetadataWithId,
-} from "mon-jardin/utils/database";
+import { getAllImagesMetadata, ImageMetadataWithId } from "utils/database";
 
 export default function Home({ images }: { images: ImageMetadataWithId[] }) {
   return (

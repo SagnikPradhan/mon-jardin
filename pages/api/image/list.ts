@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAllImagesMetadata } from "mon-jardin/utils/database";
+import { getAllImagesMetadata } from "utils/database";
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method !== "GET") response.status(405);

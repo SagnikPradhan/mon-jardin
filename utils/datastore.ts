@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 import S3 from "aws-sdk/clients/s3";
 
-import config from "mon-jardin/utils/config";
+import config from "utils/config";
 
 const { accessKeyId, secretAccessKey, region, bucket } = config.get("aws");
 AWS.config.update({ accessKeyId, secretAccessKey, region });
