@@ -1,5 +1,5 @@
 {
-  "name": "with-tailwindcss",
+  "name": "mon-jardin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,12 +10,14 @@
   "dependencies": {
     "aws-sdk": "^2.897.0",
     "faunadb": "^4.2.0",
+    "kanaphig": "^1.1.0",
     "multiparty": "^4.2.2",
     "next": "latest",
     "next-auth": "^3.19.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "sharp": "^0.28.1"
+    "sharp": "^0.28.1",
+    "zod": "next"
   },
   "devDependencies": {
     "@types/multiparty": "^0.0.32",

@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
+import config from "mon-jardin/utils/config";
+
 export default NextAuth({
   providers: [
     Providers.Discord({
@@ -11,8 +13,7 @@ export default NextAuth({
 
   callbacks: {
     signIn: (user) => {
-      const emailStr = process.env["EMAILS"] || "";
-      const emails = emailStr.split(",");
+      const emails = config.get("emails");
       return emails.includes(user.email || "");
     },
   },

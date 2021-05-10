@@ -1,18 +1,35 @@
-import { GetStaticProps } from "next";
 import React from "react";
-import { getList } from "./api/image/list";
-import { Item } from "./api/image/upload";
+import { GetStaticProps } from "next";
 
-export default function Home({ images }: { images: Item[] }) {
+import {
+  getAllImagesMetadata,
+  ImageMetadataWithId,
+} from "mon-jardin/utils/database";
+
+export default function Home({ images }: { images: ImageMetadataWithId[] }) {
   return (
     <div
       className="
         flex flex-col
       "
     >
-      {images.map(({ data: { filename, link } }) => (
-        <div className="h-screen flex items-center justify-center ">
-          <img key={filename} src={link} loading="lazy" className="h-3/4"></img>
+      {images.map(({ id, images: { P, S, L } }) => (
+        <div key={id} className="h-screen flex items-center justify-center ">
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={L.link}
+              media="(min-width: 1500px)"
+            />
+
+            <source
+              type="image/webp"
+              srcSet={S.link}
+              media="(min-width: 1000px)"
+            />
+
+            <img src={P.link} />
+          </picture>
         </div>
       ))}
     </div>
@@ -20,5 +37,8 @@ export default function Home({ images }: { images: Item[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  return { props: { images: await getList() }, revalidate: 60 * 15 };
+  return {
+    props: { images: await getAllImagesMetadata() },
+    revalidate: 60 * 15,
+  };
 };

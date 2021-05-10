@@ -2491,6 +2491,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"kanaphig@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "kanaphig@npm:1.1.0"
+  dependencies:
+    lodash.defaultsdeep: ^4.6.1
+  peerDependencies:
+    zod: "*"
+  checksum: aaf7a2e7889345403b9915738aeb56d934e39ebd5aa3b823f43d441cb79a467565eabaa9950f5f35fabf142102ac4584493d99c0a731010291c5d32f737604f5
+  languageName: node
+  linkType: hard
+
 "loader-utils@npm:1.2.3":
   version: 1.2.3
   resolution: "loader-utils@npm:1.2.3"
@@ -2508,6 +2519,13 @@ fsevents@~2.3.1:
   dependencies:
     p-locate: ^4.1.0
   checksum: c58f49d45c8672d0a290dea0ce41fcb27205b3f2d61452ba335ef3b42ad36c10c31b1f061b46d96dd4b81e9a00e8a2897bc124d75623b80a9f6d36b1e754a6b5
+  languageName: node
+  linkType: hard
+
+"lodash.defaultsdeep@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "lodash.defaultsdeep@npm:4.6.1"
+  checksum: 143c2bfa5ee476efa38c05ae2cc4245d53d9ff988ac7667d1b7aa4a069cf5015475530d649d95ef325e4a47fa1d4d8f135d3ef14ad07c63e8847aeeec46f1ca9
   languageName: node
   linkType: hard
 
@@ -2816,6 +2834,32 @@ fsevents@~2.3.1:
   checksum: 013c442ba2a58ce79cf790ffa8ac461ac67b1f3904ba7bf4ff0a83a5e443500730c1dd1d1af66d2066f8f1500ba8e150aa32518c6a294e0ab0c93692a59b77ee
   languageName: node
   linkType: hard
+
+"mon-jardin@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "mon-jardin@workspace:."
+  dependencies:
+    "@types/multiparty": ^0.0.32
+    "@types/node": ^15.0.1
+    "@types/react": ^17.0.4
+    "@types/react-dom": ^17.0.3
+    "@types/sharp": ^0.28.0
+    autoprefixer: ^10.0.4
+    aws-sdk: ^2.897.0
+    faunadb: ^4.2.0
+    kanaphig: ^1.1.0
+    multiparty: ^4.2.2
+    next: latest
+    next-auth: ^3.19.5
+    postcss: ^8.1.10
+    react: ^17.0.1
+    react-dom: ^17.0.1
+    sharp: ^0.28.1
+    tailwindcss: ^2.1.1
+    typescript: ^4.2.4
+    zod: next
+  languageName: unknown
+  linkType: soft
 
 "ms@npm:2.0.0":
   version: 2.0.0
@@ -4850,30 +4894,6 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"with-tailwindcss@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "with-tailwindcss@workspace:."
-  dependencies:
-    "@types/multiparty": ^0.0.32
-    "@types/node": ^15.0.1
-    "@types/react": ^17.0.4
-    "@types/react-dom": ^17.0.3
-    "@types/sharp": ^0.28.0
-    autoprefixer: ^10.0.4
-    aws-sdk: ^2.897.0
-    faunadb: ^4.2.0
-    multiparty: ^4.2.2
-    next: latest
-    next-auth: ^3.19.5
-    postcss: ^8.1.10
-    react: ^17.0.1
-    react-dom: ^17.0.1
-    sharp: ^0.28.1
-    tailwindcss: ^2.1.1
-    typescript: ^4.2.4
-  languageName: unknown
-  linkType: soft
-
 "wrap-ansi@npm:^7.0.0":
   version: 7.0.0
   resolution: "wrap-ansi@npm:7.0.0"
@@ -5001,5 +5021,12 @@ typescript@^4.2.4:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: 7d155f8a75b9314f9f31e70a31edcd897b0e8a1313737502ab84a573e49d2c333b738e415c156334a6e910c363ce546b59fa7921eff61440285caa99c843df74
+  languageName: node
+  linkType: hard
+
+"zod@npm:next":
+  version: 3.0.0-beta.1
+  resolution: "zod@npm:3.0.0-beta.1"
+  checksum: 5edd71c9e3df1ea707ae6857dcdfae8d724c53344cfb2b3d0d50a951b7ae98b92ce29dc31752a2f897508906d60fa9a144cb357b9ab2103ecaf80c0f0b19f80f
   languageName: node
   linkType: hard
