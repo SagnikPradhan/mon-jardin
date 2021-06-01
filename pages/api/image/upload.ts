@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Form, File } from "multiparty";
+import { nanoid } from "nanoid";
 
-import { processImage } from "utils/image";
-import { createImageMetadata, ImageMetadata } from "utils/database";
-import { uploadFile } from "utils/datastore";
+import * as image from "utils/image";
+// import * as database from "utils/database";
+// import * as datastore from "utils/datastore";
+
+import { parse } from "path";
 
 /** Gets files as a promise */
 function getFiles(request: NextApiRequest) {
@@ -17,54 +20,21 @@ function getFiles(request: NextApiRequest) {
 }
 
 /** Handles S3 Upload and Faunadb Upate */
-async function handleFile(path: string) {
-  const {
-    images: { P, S, L },
-    colour,
-  } = await processImage(path);
+async function handleFile({ path }: File) {
+  const images = await image.processImage(path);
+  const id = nanoid();
+  const originalExtenstion = parse(path).ext;
 
-  const metadata: ImageMetadata = {
-    colour,
-
-    images: {
-      P: {
-        h: P.h,
-        w: P.w,
-        link: await uploadFile({
-          name: P.fileName,
-          file: P.stream,
-          type: "image/webp",
-        }),
-      },
-
-      S: {
-        h: S.h,
-        w: S.w,
-        link: await uploadFile({
-          name: S.fileName,
-          file: S.stream,
-          type: "image/webp",
-        }),
-      },
-
-      L: {
-        h: L.h,
-        w: L.w,
-        link: await uploadFile({
-          name: L.fileName,
-          file: L.stream,
-          type: "image/webp",
-        }),
-      },
-    },
-  };
-
-  await createImageMetadata(metadata);
+  console.log({
+    name: `${id}.original${originalExtenstion}`,
+    file: images.original,
+    type: `image/${originalExtenstion.slice(1)}`,
+  });
 }
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   const files = await getFiles(request);
-  await Promise.all(files.map((file) => handleFile(file.path)));
+  await Promise.all(files.map(handleFile));
   response.send("Worked");
 };
 

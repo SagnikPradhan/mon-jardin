@@ -27,6 +27,13 @@
     "isolatedModules": true
   },
 
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
+  "include": [
+    "next-env.d.ts",
+    "vendor.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.d.ts"
+  ],
+
   "exclude": ["node_modules"]
 }

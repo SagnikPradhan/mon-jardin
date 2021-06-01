@@ -1,68 +1,20 @@
 import sharp from "sharp";
-import crypto from "crypto";
-/**
- * P - Potrait
- * S - Small
- * L - Large
- */
-const sizes = {
-  P: { w: 340, h: 640 },
-  S: { w: 1366, h: 768 },
-  L: { w: 1920, h: 1080 },
-} as const;
+import { createReadStream } from "fs";
 
-export type ImageSizes = typeof sizes;
+export const OPTIMIZED_IMAGE_SIZE = [400, 600] as const;
 
-export async function processImage(path: string) {
-  const input = sharp(path);
-  const stats = await input.stats();
+export const processImage = async (path: string) => ({
+  original: createReadStream(path),
+  optimized: createOptimizedImage(path),
+});
 
-  const hash = hashFn(path);
-
-  const images = {
-    P: {
-      fileName: `${hash}-${sizes.P.w}-${sizes.P.h}.webp`,
-      stream: createImage({ input, w: sizes.P.w, h: sizes.P.h }),
-      ...sizes.P,
-    },
-
-    S: {
-      fileName: `${hash}-${sizes.S.w}-${sizes.S.h}.webp`,
-      stream: createImage({ input, w: sizes.S.w, h: sizes.S.h }),
-      ...sizes.S,
-    },
-
-    L: {
-      fileName: `${hash}-${sizes.L.w}-${sizes.L.h}.webp`,
-      stream: createImage({ input, w: sizes.L.w, h: sizes.L.h }),
-      ...sizes.L,
-    },
-  } as const;
-
-  return {
-    images,
-    colour: stats.dominant,
-  };
-}
-
-const createImage = ({
-  h,
-  w,
-  input,
-}: {
-  h: number;
-  w: number;
-  input: sharp.Sharp;
-}) =>
-  input
+const createOptimizedImage = (path: string) =>
+  sharp(path)
     .clone()
     .resize({
-      height: h,
-      width: w,
+      width: OPTIMIZED_IMAGE_SIZE[0],
+      height: OPTIMIZED_IMAGE_SIZE[1],
       position: sharp.strategy.entropy,
       withoutEnlargement: true,
     })
     .webp();
-
-const hashFn = (string: string) =>
-  crypto.createHash("md5").update(string).digest("hex");

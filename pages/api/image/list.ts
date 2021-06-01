@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAllImagesMetadata } from "utils/database";
+import { getAllImageDataDocuments } from "utils/database";
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method !== "GET") response.status(405);
-  else response.json(await getAllImagesMetadata());
+  else response.json(await getAllImageDataDocuments());
 };

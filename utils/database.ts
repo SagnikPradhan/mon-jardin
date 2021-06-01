@@ -14,46 +14,45 @@ import {
 } from "faunadb";
 
 import config from "utils/config";
-import { ImageSizes } from "utils/image";
 
 const collection = config.get("fauna.collection");
 
-/** Image metadata */
-export interface ImageMetadata {
-  images: { [K in keyof ImageSizes]: ImageSizes[K] & { link: string } };
-  colour: { r: number; g: number; b: number };
+/** Image data */
+export interface ImageData {
+  optimized: string;
+  original: string;
 }
 
-export type ImageMetadataWithId = ImageMetadata & { id: number };
+export type ImageDataWithId = ImageData & { id: number };
 
 const client = new Client({ secret: config.get("fauna.token") });
 
 /**
- * Create new image metadata document
+ * Create new image data document
  *
  * @param data - Image metadata
  */
-export async function createImageMetadata(data: ImageMetadata) {
+export async function createImageDataDocument(data: ImageData) {
   await client.query(Create(Collection(collection), { data }));
 }
 
 /**
- * Delete image metadata document
+ * Delete image data document
  *
  * @param id - Id of the image
  */
-export async function deleteImageMetadata(id: string) {
+export async function deleteImageDataDocument(id: string) {
   await client.query(Delete(Ref(Collection(collection), id)));
 }
 
 /**
- * Get all the images metadata documents
+ * Get all the images data documents
  *
- * @returns Images metadata
+ * @returns Images data
  */
-export async function getAllImagesMetadata() {
+export async function getAllImageDataDocuments() {
   const { data } = await client.query<{
-    data: ImageMetadataWithId[];
+    data: ImageDataWithId[];
   }>(
     FMap(
       Paginate(Documents(Collection("photos"))),
