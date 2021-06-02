@@ -21,6 +21,11 @@ const configuration = new Configuration(
       token: z.string(),
       collection: z.string(),
     }),
+
+    google: z.object({
+      clientId: z.string(),
+      clientSecret: z.string(),
+    }),
   })
 ).env({
   discord: {
@@ -40,6 +45,11 @@ const configuration = new Configuration(
   fauna: {
     token: { $env: "FAUNADB_TOKEN" },
     collection: { $env: "FAUNADB_COLLECTION" },
+  },
+
+  google: {
+    clientId: { $env: "GOOGLE_CLIENT_ID" },
+    clientSecret: { $env: "GOOGLE_CLIENT_SECRET" },
   },
 });
 

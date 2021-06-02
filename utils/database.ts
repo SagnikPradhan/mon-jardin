@@ -13,7 +13,7 @@ import {
   Merge,
 } from "faunadb";
 
-import config from "utils/config";
+import config from "mon-jardin/utils/config";
 
 const collection = config.get("fauna.collection");
 

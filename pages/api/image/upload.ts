@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Form, File } from "multiparty";
 import { nanoid } from "nanoid";
 
-import * as image from "utils/image";
-// import * as database from "utils/database";
-// import * as datastore from "utils/datastore";
+import * as image from "mon-jardin/utils/image";
+import * as database from "mon-jardin/utils/database";
+import * as datastore from "mon-jardin/utils/datastore";
 
 import { parse } from "path";
 
@@ -25,10 +25,21 @@ async function handleFile({ path }: File) {
   const id = nanoid();
   const originalExtenstion = parse(path).ext;
 
-  console.log({
+  const originalImageLink = await datastore.uploadFile({
     name: `${id}.original${originalExtenstion}`,
     file: images.original,
     type: `image/${originalExtenstion.slice(1)}`,
+  });
+
+  const optimizedImageLink = await datastore.uploadFile({
+    name: `${id}.webp`,
+    file: images.optimized,
+    type: "image/webp",
+  });
+
+  await database.createImageDataDocument({
+    original: originalImageLink,
+    optimized: optimizedImageLink,
   });
 }
 
