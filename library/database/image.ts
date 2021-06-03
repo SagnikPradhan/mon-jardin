@@ -32,9 +32,20 @@ export async function deleteImageDataDocument(id: string) {
 /**
  * Get all the images data documents
  *
- * @returns Images data
+ * @returns Images metadata
  */
-export async function getAllImageDataDocuments(): Promise<ImageData[]> {
+export async function getAllImageDataDocuments() {
   const collection = await getCollection<ImageData>(IMAGE_COLLECTION);
   return await collection.find({}).toArray();
+}
+
+/**
+ * Get image data document
+ *
+ * @param id - Id of image
+ * @returns Image metadata
+ */
+export async function getImageDataDocument(id: string) {
+  const collection = await getCollection<ImageData>(IMAGE_COLLECTION);
+  return await collection.findOne({ id });
 }
