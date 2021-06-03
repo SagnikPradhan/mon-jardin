@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.897.0",
-    "faunadb": "^4.2.0",
     "kanaphig": "1.1.0",
+    "mongodb": "^3.6.9",
     "multiparty": "^4.2.2",
     "nanoid": "^3.1.23",
     "next": "latest",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
+    "@types/mongodb": "^3",
     "@types/multiparty": "^0.0.32",
     "@types/node": "^15.0.1",
     "@types/react": "^17.0.4",

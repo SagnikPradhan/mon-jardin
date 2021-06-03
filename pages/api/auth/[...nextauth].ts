@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-import config from "mon-jardin/utils/config";
+import config from "mon-jardin/library/config";
 
 export default NextAuth({
   providers: [

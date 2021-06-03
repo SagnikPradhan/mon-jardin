@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Form, File } from "multiparty";
 import { nanoid } from "nanoid";
 
-import * as image from "mon-jardin/utils/image";
-import * as database from "mon-jardin/utils/database";
-import * as datastore from "mon-jardin/utils/datastore";
+import * as image from "mon-jardin/library/image";
+import * as database from "mon-jardin/library/database";
+import * as datastore from "mon-jardin/library/datastore";
 
 import { parse } from "path";
 
@@ -38,6 +38,7 @@ async function handleFile({ path }: File) {
   });
 
   await database.createImageDataDocument({
+    id,
     original: originalImageLink,
     optimized: optimizedImageLink,
   });

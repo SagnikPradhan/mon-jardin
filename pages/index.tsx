@@ -1,13 +1,9 @@
 import React from "react";
 import { GetStaticProps } from "next";
 
-import * as database from "mon-jardin/utils/database";
+import * as database from "mon-jardin/library/database";
 
-export default function Home({
-  images,
-}: {
-  images: database.ImageDataWithId[];
-}) {
+export default function Home({ images }: { images: database.ImageData[] }) {
   return <h1>Hey there</h1>;
 }
 

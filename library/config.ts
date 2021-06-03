@@ -17,9 +17,8 @@ const configuration = new Configuration(
       bucket: z.string(),
     }),
 
-    fauna: z.object({
-      token: z.string(),
-      collection: z.string(),
+    mongodb: z.object({
+      url: z.string(),
     }),
 
     google: z.object({
@@ -42,9 +41,8 @@ const configuration = new Configuration(
     bucket: { $env: "AWS_BUCKET_APP" },
   },
 
-  fauna: {
-    token: { $env: "FAUNADB_TOKEN" },
-    collection: { $env: "FAUNADB_COLLECTION" },
+  mongodb: {
+    url: { $env: "DATABASE_URL" },
   },
 
   google: {
