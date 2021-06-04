@@ -1,19 +1,21 @@
 import { File, Form } from "multiparty";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
+type FilesMap = Record<string, File[]>;
+
 type Handler = (
   request: NextApiRequest,
   response: NextApiResponse,
-  files: File[]
+  filesMap: FilesMap
 ) => Promise<void> | void;
 
 /** Gets files as a promise */
 function getFiles(request: NextApiRequest) {
-  return new Promise<File[]>((resolve, reject) => {
+  return new Promise<FilesMap>((resolve, reject) => {
     const form = new Form();
 
-    form.parse(request, (err, _, files) =>
-      err ? reject(err) : resolve(files.image)
+    form.parse(request, (err, _, filesMap) =>
+      err ? reject(err) : resolve(filesMap)
     );
   });
 }
@@ -26,7 +28,7 @@ function getFiles(request: NextApiRequest) {
  */
 export function files(handler: Handler): NextApiHandler {
   return async (request, response) => {
-    const files = await getFiles(request);
-    return handler(request, response, files);
+    const filesMap = await getFiles(request);
+    return handler(request, response, filesMap);
   };
 }

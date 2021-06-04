@@ -17,7 +17,7 @@ export default API.methods({
     async (request, response) => {
       const { id } = request.query as { id: string };
       await database.deleteImageDataDocument(id);
-      response.status(Status.OK);
+      response.status(Status.OK).send("OK");
     }
   ),
 });

@@ -19,9 +19,14 @@ export default API.methods({
   POST: API.pass(
     Auth,
 
-    API.files(async (_, response, files) => {
-      await Promise.all(files.map(handleFileUpload));
-      response.status(Status.CREATED);
+    API.files(async (_, response, filesMap) => {
+      const files = filesMap["images"];
+
+      if (!files) response.status(Status.BAD_REQUEST).send("BAD_REQUEST");
+      else {
+        await Promise.all(files.map(handleFileUpload));
+        response.status(Status.CREATED).send("CREATED");
+      }
     })
   ),
 });
