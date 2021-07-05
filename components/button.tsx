@@ -8,7 +8,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const Button = styled.button<{ background?: string }>`
-  padding: 1em 1.5em;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
 
