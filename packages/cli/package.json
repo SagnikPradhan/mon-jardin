@@ -1,0 +1,24 @@
+{
+  "name": "@mon-jardin/cli",
+  "bin": {
+    "monjardin": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@mon-jardin/database": "workspace:packages/prisma",
+    "aws-sdk": "^2.939.0",
+    "commander": "^8.0.0",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.1",
+    "sharp": "^0.28.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "@types/node-fetch": "^2.5.10",
+    "@types/sharp": "^0.28.3",
+    "typescript": "^4.3.5"
+  }
+}

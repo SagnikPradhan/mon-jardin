@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["es2020", "dom"],
-    "module": "esnext",
-    "jsx": "preserve",
+    "lib": ["es2020"],
 
     "strict": true,
 
@@ -12,28 +10,13 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
 
     "moduleResolution": "node",
     "esModuleInterop": true,
+
     "skipLibCheck": true,
-
-    "forceConsistentCasingInFileNames": true,
-
-    "allowJs": true,
-    "noEmit": true,
-
-    "resolveJsonModule": true,
-    "isolatedModules": true
-  },
-
-  "include": [
-    "next-env.d.ts",
-    "vendor.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.d.ts"
-  ],
-
-  "exclude": ["node_modules"]
+    "forceConsistentCasingInFileNames": true
+  }
 }
