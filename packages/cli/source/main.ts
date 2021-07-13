@@ -3,12 +3,12 @@ import "dotenv/config";
 import { Command } from "commander";
 
 import { addOptions } from "./helpers/cli/options";
-import { getLocalImages } from "./helpers/images/local";
+import { getLocalImages } from "./helpers/img/local";
 import {
   getHashOfCloudImages,
   intialiseS3,
   uploadImage,
-} from "./helpers/images/s3";
+} from "./helpers/img/s3";
 
 const program = new Command();
 

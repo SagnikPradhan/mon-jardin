@@ -117,8 +117,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# prisma 
-packages/prisma/source
-
 # images
 images
