@@ -4,7 +4,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import { hashFile } from "./utils";
 
-interface LocalImage {
+export interface LocalImage {
   path: path.ParsedPath;
   image: sharp.Sharp;
   hash: string;

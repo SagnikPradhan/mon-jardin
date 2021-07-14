@@ -3,6 +3,7 @@
     "rootDir": "source",
     "module": "commonjs",
     "outDir": "dist",
+    "jsx": "react",
     "noEmit": false
   },
 
