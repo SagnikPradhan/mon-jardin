@@ -11,14 +11,17 @@ export function useS3(options: Options) {
   });
 
   return {
-    imagesHash: async function () {
+    images: async function () {
       const objects = await s3.listObjects({ Bucket: options.bucket });
+      return objects.Contents || [];
+    },
 
-      return objects.Contents
-        ? objects.Contents.map(({ Key }) => Key?.split(".")[0]).filter(
-            (value): value is string => typeof value === "string"
-          )
-        : [];
+    imagesHash: async function () {
+      const images = await this.images();
+
+      return images
+        .map(({ Key }) => Key?.split(".")[0])
+        .filter((value): value is string => typeof value === "string");
     },
 
     upload: async function ({ image, hash, path }: LocalImage) {
