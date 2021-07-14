@@ -11,5 +11,6 @@
     "**/.DS_Store": true,
     ".yarn/cache": true
   },
+
   "conventionalCommits.scopes": ["cli"]
 }

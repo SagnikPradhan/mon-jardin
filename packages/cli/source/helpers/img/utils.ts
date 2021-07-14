@@ -1,32 +1,20 @@
 import sharp from "sharp";
 
-const IMAGE_HASH_GRID_SIZE = 12;
+import crypto from "crypto";
+import { promises as fs } from "fs";
 
 /**
- * creates a hash of image
+ * creates a sha1 hash of image
  *
  * @param sharpInstance - sharp instance
- * @returns - perceptual hash of image
+ * @returns - hash of image
  */
-export async function hashImage(sharpInstance: sharp.Sharp) {
-  const pixelArray = await getPixelArray(sharpInstance);
-  const hashBits = [] as (0 | 1)[];
+export async function hashFile(path: string) {
+  const hash = crypto.createHash("sha1");
+  const imageData = await fs.readFile(path);
 
-  for (const [index, pixel] of pixelArray.entries()) {
-    const nextPixel = pixelArray[index + 1];
-    if (nextPixel !== undefined) hashBits.push(nextPixel > pixel ? 1 : 0);
-  }
-
-  return parseInt(hashBits.join(""), 2).toString(16);
-}
-
-function getPixelArray(sharpInstance: sharp.Sharp) {
-  return sharpInstance
-    .greyscale()
-    .resize(IMAGE_HASH_GRID_SIZE + 1, IMAGE_HASH_GRID_SIZE, { fit: "fill" })
-    .raw()
-    .toBuffer()
-    .then((buffer) => new Uint8Array(buffer));
+  hash.update(imageData);
+  return hash.digest("hex");
 }
 
 /**

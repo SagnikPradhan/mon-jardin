@@ -2,7 +2,7 @@ import sharp from "sharp";
 
 import path from "path";
 import { promises as fs } from "fs";
-import { hashImage } from "./utils";
+import { hashFile } from "./utils";
 
 interface LocalImage {
   path: path.ParsedPath;
@@ -27,7 +27,7 @@ export async function getLocalImages() {
     const parsedImagePath = path.parse(imagePath);
 
     const image = sharp(imagePath);
-    const hash = await hashImage(image.clone());
+    const hash = await hashFile(imagePath);
 
     images.push({
       image,
