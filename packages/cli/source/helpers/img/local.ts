@@ -17,7 +17,7 @@ export interface LocalImage {
  *
  * @returns local images
  */
-export async function getLocalImages() {
+export default async function getLocalImages() {
   const root = path.join(process.cwd(), "images");
 
   const images = [] as LocalImage[];
