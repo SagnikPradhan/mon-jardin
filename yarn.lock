@@ -1143,7 +1143,6 @@ __metadata:
     dotenv: ^10.0.0
     ink: ^3.0.8
     ink-spinner: ^4.0.2
-    ink-table: ^3.0.0
     pretty-bytes: ^5.6.0
     react: ^17.0.2
     sharp: ^0.28.3
@@ -2947,18 +2946,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"ink-table@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "ink-table@npm:3.0.0"
-  dependencies:
-    object-hash: ^2.0.3
-  peerDependencies:
-    ink: ">=3.0.0"
-    react: ">=16.8.0"
-  checksum: aa2a68bd33fde8847d03caeea2f506aba472b5558fc6fb2df6bda340351a3f4600d5beb4190200a08b0efc710daa012f783a0e8d1eed2ce601f021a213721691
-  languageName: node
-  linkType: hard
-
 "ink@npm:^3.0.8":
   version: 3.0.8
   resolution: "ink@npm:3.0.8"
@@ -3752,13 +3739,6 @@ fsevents@~2.3.1:
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
   checksum: 66cf021898fc1b13ea573ea8635fbd5a76533f50cecbc2fcd5eee1e8029af41bcebe7023788b6d0e06cbe4401ecea075d972f78ec74467cdc571a0f1a4d1a081
-  languageName: node
-  linkType: hard
-
-"object-hash@npm:^2.0.3":
-  version: 2.2.0
-  resolution: "object-hash@npm:2.2.0"
-  checksum: 1f62307a1f97245382282652d4dc58d66fdbaf232fe97eb69cbd69bf2428935d6764c7fb9e8e8c559a97925362bcdd92258a50e47a7175b0aa6849d50e6fde9b
   languageName: node
   linkType: hard
 

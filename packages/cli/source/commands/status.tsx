@@ -5,27 +5,26 @@ import { useS3 } from "../helpers/hooks/s3";
 import { Box, Text } from "ink";
 import React, { useEffect, useState } from "react";
 import Spinner from "ink-spinner";
-import Table from "ink-table";
 
 import prettyBytes from "pretty-bytes";
 
-export function StatusCommand({
-  options,
-  detail,
-}: {
-  options: Options;
-  detail: boolean;
-}) {
+interface Information {
+  total: string;
+  decrease: string;
+}
+
+export function StatusCommand({ options }: { options: Options }) {
   const s3 = useS3(options);
-  const [images, setImages] = useState<_Object[] | null>(null);
+  const [info, setInfo] = useState<Information | null>(null);
 
   useEffect(() => {
     s3.images()
-      .then((images) => setImages(images))
+      .then((images) => extractInfo(images))
+      .then((info) => setInfo(info))
       .catch();
   }, []);
 
-  if (!images)
+  if (!info)
     return (
       <Box flexDirection="row">
         <Spinner></Spinner>
@@ -35,42 +34,39 @@ export function StatusCommand({
   else
     return (
       <Box flexDirection="column">
-        {detail && <Table data={extractData(images)}></Table>}
-
         <Box flexDirection="row">
           <Text>Total Size </Text>
-          <Text bold>
-            {prettyBytes(
-              images.reduce((acc, { Size }) => acc + (Size || 0), 0)
-            )}
-          </Text>
+          <Text bold>{info.total}</Text>
+        </Box>
+
+        <Box flexDirection="row">
+          <Text>Total Decrease </Text>
+          <Text bold>{info.decrease}</Text>
         </Box>
       </Box>
     );
 }
 
-function extractData(images: _Object[]) {
-  const merged = {} as Record<string, { original: number; optimized: number }>;
+function extractInfo(images: _Object[]) {
+  const originalSizes = [] as number[];
+  const optimizedSizes = [] as number[];
 
-  for (const image of images) {
-    const [hash, type, _] = image.Key!.split(".") as [
-      string,
-      "optimized" | "original",
-      string
-    ];
-
-    merged[hash] = {
-      original: 0,
-      optimized: 0,
-      ...merged[hash],
-      [type]: image.Size || 0,
-    };
+  for (const { Key, Size } of images) {
+    if (!Key || !Size) continue;
+    const type = Key.split(".")[1] as "optimized" | "original";
+    (type === "original" ? originalSizes : optimizedSizes).push(Size);
   }
 
-  return Object.entries(merged).map(([hash, { optimized, original }]) => ({
-    hash,
-    original: prettyBytes(original),
-    optimized: prettyBytes(optimized),
-    decrease: Math.round(((original - optimized) / original) * 100) + "%",
-  }));
+  const originalSize = add(originalSizes);
+  const optimizedSize = add(optimizedSizes);
+
+  return {
+    total: prettyBytes(originalSize + optimizedSize),
+    decrease:
+      Math.floor(((originalSize - optimizedSize) / originalSize) * 100) + "%",
+  };
+}
+
+function add(values: number[]) {
+  return values.reduce((acc, value) => acc + value, 0);
 }

@@ -24,14 +24,8 @@ program
 program
   .command("status")
   .description("Status of cloud directory")
-  .option("-d, --detail", "Detailed status", false)
-  .action((statusOptions) => {
-    render(
-      <StatusCommand
-        detail={statusOptions.detail}
-        options={options}
-      ></StatusCommand>
-    );
+  .action(() => {
+    render(<StatusCommand options={options}></StatusCommand>);
   });
 
 program.parse();
