@@ -70,6 +70,7 @@ function extractInfo(images: Image[]) {
   return {
     total: prettyBytes(originalSize + optimizedSize),
     decrease:
-      Math.floor(((originalSize - optimizedSize) / originalSize) * 100) + "%",
+      Math.floor(((originalSize - optimizedSize) / (originalSize || 1)) * 100) +
+      "%",
   };
 }

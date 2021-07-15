@@ -85,5 +85,16 @@ export function useCloud(options: Options) {
         },
       });
     },
+
+    delete: async function (hash: string) {
+      if (!connected) throw new Error("Not connected to database");
+
+      const { optimizedKey, originalKey } = await database.image.delete({
+        where: { hash },
+      });
+
+      await s3.deleteObject({ Bucket: options.bucket, Key: optimizedKey });
+      await s3.deleteObject({ Bucket: options.bucket, Key: originalKey });
+    },
   };
 }

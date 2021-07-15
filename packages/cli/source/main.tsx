@@ -6,7 +6,7 @@ import { render } from "ink";
 
 import { addOptions } from "./helpers/cli/options";
 
-import { PushCommand } from "./commands/push";
+import { SyncCommand } from "./commands/sync";
 import { StatusCommand } from "./commands/status";
 
 const program = new Command();
@@ -15,10 +15,10 @@ program.version("1.0.0");
 const options = addOptions(program);
 
 program
-  .command("push")
+  .command("sync")
   .description("Sync contents of folder with cloud")
   .action(() => {
-    render(<PushCommand options={options}></PushCommand>);
+    render(<SyncCommand options={options}></SyncCommand>);
   });
 
 program
