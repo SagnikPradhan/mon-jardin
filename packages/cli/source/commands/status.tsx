@@ -1,12 +1,13 @@
 import { _Object } from "@aws-sdk/client-s3";
 import { Options } from "../helpers/cli/options";
-import { useS3 } from "../helpers/hooks/s3";
+import { useCloud } from "../helpers/hooks/cloud";
 
 import { Box, Text } from "ink";
 import React, { useEffect, useState } from "react";
 import Spinner from "ink-spinner";
 
 import prettyBytes from "pretty-bytes";
+import { Image } from "@mon-jardin/database";
 
 interface Information {
   total: string;
@@ -14,21 +15,31 @@ interface Information {
 }
 
 export function StatusCommand({ options }: { options: Options }) {
-  const s3 = useS3(options);
+  const cloud = useCloud(options);
   const [info, setInfo] = useState<Information | null>(null);
 
   useEffect(() => {
-    s3.images()
-      .then((images) => extractInfo(images))
-      .then((info) => setInfo(info))
-      .catch();
-  }, []);
+    if (cloud.connected)
+      cloud
+        .getImages()
+        .then((images) => extractInfo(images))
+        .then((info) => setInfo(info))
+        .then(() => cloud.disconnect())
+        .catch();
+  }, [cloud.connected]);
 
-  if (!info)
+  if (!cloud.connected)
     return (
       <Box flexDirection="row">
         <Spinner></Spinner>
-        <Text color="yellow"> Collecting data</Text>
+        <Text> Connecting to cloud</Text>
+      </Box>
+    );
+  else if (!info)
+    return (
+      <Box flexDirection="row">
+        <Spinner></Spinner>
+        <Text> Collecting data</Text>
       </Box>
     );
   else
@@ -47,26 +58,18 @@ export function StatusCommand({ options }: { options: Options }) {
     );
 }
 
-function extractInfo(images: _Object[]) {
-  const originalSizes = [] as number[];
-  const optimizedSizes = [] as number[];
-
-  for (const { Key, Size } of images) {
-    if (!Key || !Size) continue;
-    const type = Key.split(".")[1] as "optimized" | "original";
-    (type === "original" ? originalSizes : optimizedSizes).push(Size);
-  }
-
-  const originalSize = add(originalSizes);
-  const optimizedSize = add(optimizedSizes);
+function extractInfo(images: Image[]) {
+  const [originalSize, optimizedSize] = images.reduce(
+    ([og, op], { originalSize, optimizedSize }) => [
+      og + originalSize,
+      op + optimizedSize,
+    ],
+    [0, 0]
+  );
 
   return {
     total: prettyBytes(originalSize + optimizedSize),
     decrease:
       Math.floor(((originalSize - optimizedSize) / originalSize) * 100) + "%",
   };
-}
-
-function add(values: number[]) {
-  return values.reduce((acc, value) => acc + value, 0);
 }

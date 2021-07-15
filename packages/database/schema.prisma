@@ -1,0 +1,23 @@
+datasource Datasource {
+  provider = "mongodb"
+  url      = env("MON_JARDIN_DATABASE_URL")
+}
+
+generator Client {
+  output          = "./source"
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+model Image {
+  hash String @id @map("_id")
+
+  optimizedKey  String @unique
+  optimizedSize Int
+
+  originalKey  String @unique
+  originalSize Int
+
+  bucket String
+  region String
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@mon-jardin/database",
+  "main": "./source/index.js",
+  "types": "./source/index.d.ts",
+  "scripts": {
+    "build": "prisma generate"
+  },
+  "devDependencies": {
+    "prisma": "2.24.0"
+  }
+}

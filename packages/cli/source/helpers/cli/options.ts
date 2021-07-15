@@ -5,6 +5,7 @@ export interface Options {
   keyId: string;
   bucket: string;
   region: string;
+  database: string;
 }
 
 /**
@@ -38,5 +39,14 @@ export function addOptions(program: Command) {
     process.env["MON_JARDIN_AWS_REGION"]
   );
 
-  return program.opts<Options>();
+  program.requiredOption(
+    "-d, --database [database]",
+    "mongodb database url, or set env MON_JARDIN_DATABASE_URL",
+    process.env["MON_JARDIN_DATABASE_URL"]
+  );
+
+  const options = program.opts<Options>();
+  process.env["MON_JARDIN_DATABASE_URL"] = options.database;
+
+  return options;
 }

@@ -1136,6 +1136,7 @@ __metadata:
   resolution: "@mon-jardin/cli@workspace:packages/cli"
   dependencies:
     "@aws-sdk/client-s3": ^3.20.0
+    "@mon-jardin/database": "workspace:packages/database"
     "@types/node": ^16.0.0
     "@types/react": ^17.0.14
     "@types/sharp": ^0.28.3
@@ -1149,6 +1150,14 @@ __metadata:
     typescript: ^4.3.5
   bin:
     monjardin: ./dist/main.js
+  languageName: unknown
+  linkType: soft
+
+"@mon-jardin/database@workspace:packages/database":
+  version: 0.0.0-use.local
+  resolution: "@mon-jardin/database@workspace:packages/database"
+  dependencies:
+    prisma: 2.24.0
   languageName: unknown
   linkType: soft
 
@@ -1226,6 +1235,13 @@ __metadata:
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
   checksum: d178d86a0a96e5aa12e6d70c00d50eb3bb9a58c0cf1c36e1d7f240acb4ae3f14642c6314659c438ea409a509f08c2a62e29c9346a033e554c3f6921cdb293219
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:2.24.0-30.f3e341280d96d0abc068f97e959ddf01f321a858":
+  version: 2.24.0-30.f3e341280d96d0abc068f97e959ddf01f321a858
+  resolution: "@prisma/engines@npm:2.24.0-30.f3e341280d96d0abc068f97e959ddf01f321a858"
+  checksum: c0aa706c7caf8ecc2dfd176eaa5f8710d19c332ac08c3624fe768090745a47204b22612191021a6f84e0539bb0ac664465affb10a5d021a85f2eb0a5c0da4c1a
   languageName: node
   linkType: hard
 
@@ -4000,6 +4016,18 @@ fsevents@~2.3.1:
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
   checksum: 2a2db3daaee5c7271dbc68cc875118f4e2b6697e9e4e73b4ea5d5639f50cff2c1f1f7db4775119974eff86fdbd1fac2a5d9f16bc41d90626821a9f6a0e6e26cf
+  languageName: node
+  linkType: hard
+
+"prisma@npm:2.24.0":
+  version: 2.24.0
+  resolution: "prisma@npm:2.24.0"
+  dependencies:
+    "@prisma/engines": 2.24.0-30.f3e341280d96d0abc068f97e959ddf01f321a858
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: 80c2ca9640303370c40a0a76ceacea2f89927de976ce1f376ab7c959d752014d21b3df8ad911173076110dbf454caf29ed96ca04e667fd486ab5be840afd86cc
   languageName: node
   linkType: hard
 
