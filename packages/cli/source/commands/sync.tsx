@@ -1,74 +1,45 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect } from "react";
 import { Box, Text } from "ink";
 import Spinner from "ink-spinner";
 
 import { Options } from "../helpers/cli/options";
 import { useCloud } from "../helpers/hooks/cloud";
-import getLocalImages from "../helpers/img/local";
-
-type TaskStatus =
-  | "skipped"
-  | "uploaded"
-  | "uploading"
-  | "deleting"
-  | "deleted"
-  | "errored";
-
-interface Task {
-  hash: string;
-  status: TaskStatus;
-}
+import { Tasks, useTasks } from "../components/task";
+import { useLocal } from "../helpers/hooks/local";
 
 export function SyncCommand({ options }: { options: Options }) {
   const cloud = useCloud(options);
+  const local = useLocal();
 
-  const [tasks, dispatchTask] = useReducer(
-    (tasks: Task[], updatedTask: Task) => {
-      const priority: Record<TaskStatus, number> = {
-        errored: 3,
-        deleting: 2,
-        uploading: 1,
-        deleted: 0,
-        uploaded: 1,
-        skipped: -2,
-      };
-
-      const reducedTasks = [
-        ...tasks.filter((currentTask) => currentTask.hash !== updatedTask.hash),
-        updatedTask,
-      ];
-
-      reducedTasks.sort((taskA, taskB) => {
-        const aPriority = priority[taskA.status];
-        const bPriority = priority[taskB.status];
-        return aPriority === bPriority ? 0 : aPriority < bPriority ? 1 : -1;
-      });
-
-      return reducedTasks;
-    },
-    []
-  );
+  const { dispatchTask, tasks } = useTasks({
+    errored: { priority: 6, symbol: "❌" },
+    deleting: { priority: 5, symbol: "🔥" },
+    uploading: { priority: 4, symbol: "📤" },
+    deleted: { priority: 3, symbol: "🗑️" },
+    uploaded: { priority: 2, symbol: "☁️" },
+    skipped: { priority: 1, symbol: "✔️" },
+  });
 
   useEffect(() => {
     if (!cloud.connected) return;
 
     const main = async () => {
-      const localImages = await getLocalImages();
+      const localImages = await local.getFiles();
       const cloudImagesHashes = await cloud.getImageHashes();
 
       // Upload local images
       for (const { hash, image, path } of localImages) {
         if (cloudImagesHashes.includes(hash)) {
-          dispatchTask({ hash, status: "skipped" });
+          dispatchTask([hash, "skipped"]);
           continue;
         }
 
-        dispatchTask({ hash, status: "uploading" });
+        dispatchTask([hash, "uploading"]);
 
         cloud
           .upload({ hash, image, path })
-          .then(() => dispatchTask({ hash, status: "uploaded" }))
-          .catch(() => dispatchTask({ hash, status: "errored" }));
+          .then(() => dispatchTask([hash, "uploaded"]))
+          .catch(() => dispatchTask([hash, "errored"]));
       }
 
       // Delete cloud only images
@@ -79,14 +50,12 @@ export function SyncCommand({ options }: { options: Options }) {
 
         if (localCopyExists) continue;
 
-        dispatchTask({ hash: cloudImageHash, status: "deleting" });
+        dispatchTask([cloudImageHash, "deleting"]);
 
         await cloud
           .delete(cloudImageHash)
-          .then(() => dispatchTask({ hash: cloudImageHash, status: "deleted" }))
-          .catch(() =>
-            dispatchTask({ hash: cloudImageHash, status: "errored" })
-          );
+          .then(() => dispatchTask([cloudImageHash, "deleted"]))
+          .catch(() => dispatchTask([cloudImageHash, "errored"]));
       }
 
       await cloud.disconnect();
@@ -109,32 +78,5 @@ export function SyncCommand({ options }: { options: Options }) {
         <Text> Calculating tasks</Text>
       </Box>
     );
-  else
-    return (
-      <Box flexDirection="column">
-        {tasks.map(({ hash, status }) => (
-          <Box key={hash} flexDirection="row">
-            {status === "errored" ? (
-              <Text color="redBright">✖</Text>
-            ) : status === "skipped" ? (
-              <Text color="yellow">✔</Text>
-            ) : status === "uploading" ? (
-              <Spinner></Spinner>
-            ) : status === "uploaded" ? (
-              <Text color="greenBright">✔</Text>
-            ) : status === "deleted" ? (
-              <Text color="redBright">✔</Text>
-            ) : (
-              <Text color="red">
-                <Spinner></Spinner>
-              </Text>
-            )}
-
-            <Text bold> {status} </Text>
-
-            <Text>{hash}</Text>
-          </Box>
-        ))}
-      </Box>
-    );
+  else return <Tasks>{tasks}</Tasks>;
 }

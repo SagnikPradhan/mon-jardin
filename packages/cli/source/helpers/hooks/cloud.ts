@@ -96,5 +96,9 @@ export function useCloud(options: Options) {
       await s3.deleteObject({ Bucket: options.bucket, Key: optimizedKey });
       await s3.deleteObject({ Bucket: options.bucket, Key: originalKey });
     },
+
+    download: function (hash: string) {
+      return s3.getObject({ Key: hash, Bucket: options.bucket });
+    },
   };
 }
